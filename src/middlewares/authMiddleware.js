@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "../utils/asyncHandler.js";
 import db from "../config/mysqlConfig.js";
-import { getUser } from "../dbOperations/userStatements.js";
+import { getUserQuery } from "../dbOperations/userStatements.js";
 import CustomError from "../utils/CustomError.js";
 
 export const authMiddleware = asyncHandler(async (req, res, next) => {
@@ -19,7 +19,7 @@ export const authMiddleware = asyncHandler(async (req, res, next) => {
     return next();
   }
 
-  const [user] = await db.query(getUser, [decoded.id]);
+  const [user] = await db.query(getUserQuery, [decoded.id]);
   if (!user || user.length === 0) {
     return next(new CustomError(401, "The user with the given token does not exist"));
   }

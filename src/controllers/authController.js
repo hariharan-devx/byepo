@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import asyncHandler from "../utils/asyncHandler.js";
 import db from "../config/mysqlConfig.js";
 import { generateToken } from "../utils/jwt.js";
-import { loginUser, signupUser } from "../dbOperations/userStatements.js";
+import { loginUserQuery, signupUserQuery } from "../dbOperations/userStatements.js";
 import CustomError from "../utils/CustomError.js";
 
 //Super Admin Login
@@ -22,7 +22,7 @@ export const signup = asyncHandler(async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const [newUser] = await db.query(signupUser, [email, hashedPassword, role, organization_id, "Y"]);
+  const [newUser] = await db.query(signupUserQuery, [email, hashedPassword, role, organization_id, "Y"]);
 
   if (!newUser || newUser.affectedRows === 0) {
     return next(new CustomError(404, "User failed to add"));
@@ -38,7 +38,7 @@ export const signup = asyncHandler(async (req, res, next) => {
 export const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const [user] = await db.query(loginUser, [email]);
+  const [user] = await db.query(loginUserQuery, [email]);
 
   if (!user || user.length === 0) {
     return next(new CustomError(404, "User not found"));
