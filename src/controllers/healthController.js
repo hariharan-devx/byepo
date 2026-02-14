@@ -1,16 +1,8 @@
-import CustomError from "../utils/CustomError.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
-const healthz = async (req, res, next) => {
-  const health = true;
-  if (!health) {
-    const error = new CustomError(404, "Health not found!");
-    return next(error);
-  }
-
+export const health = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     status: "success",
-    data: null,
+    message: "Byepo Backend service is running",
   });
-};
-
-export default healthz;
+});

@@ -1,7 +1,6 @@
 import Joi from "joi";
 
 export const signupSchema = Joi.object({
-  username: Joi.string().trim().required().label("Username"),
   email: Joi.string()
     .trim()
     .email({ tlds: { allow: false } })
@@ -20,6 +19,7 @@ export const signupSchema = Joi.object({
       "string.pattern.base": "Password must include uppercase, lowercase, number, and special character.",
     }),
   role: Joi.string().trim().required().label("Role"),
+  organization_id: Joi.number().strict().required().label("Organization ID"),
 });
 
 export const loginSchema = Joi.object({
