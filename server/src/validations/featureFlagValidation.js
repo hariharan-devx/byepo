@@ -2,7 +2,6 @@ import Joi from "joi";
 
 export const createFeatureFlagSchema = Joi.object({
   feature_key: Joi.string().trim().required().label("Feature Key"),
-  is_enabled: Joi.boolean().required().label("Is Enabled"),
 });
 
 export const updateFeatureFlagSchema = Joi.object({

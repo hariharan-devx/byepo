@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Admin Login</title>
+  </head>
+  <body style="align-items: center; justify-content: center; display: flex; flex-direction: column">
+    <h1>Organization Admin Login</h1>
+
+    <form onsubmit="login(event)" autocomplete="off">
+      <input id="email" placeholder="Email" required /><br /><br />
+      <input id="password" type="password" placeholder="Password" required /><br /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <script src="../helper/apiCall.js"></script>
+    <script>
+      function login(e) {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        apiCall("auth/login", "POST", { email, password }).then((data) => {
+          if (data.status === "success") {
+            alert("Login successful!");
+            window.location.href = "index.html";
+          } else {
+            console.log(data.message);
+            alert(data.message);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

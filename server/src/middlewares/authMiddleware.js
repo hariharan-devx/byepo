@@ -5,12 +5,11 @@ import { getUserQuery } from "../dbOperations/userStatements.js";
 import CustomError from "../utils/CustomError.js";
 
 export const authMiddleware = asyncHandler(async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.jwt;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return next(new CustomError(401, "You are not logged in!"));
   }
-  const token = authHeader.split(" ")[1];
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

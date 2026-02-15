@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>End User Dashboard</title>
+  </head>
+  <body style="align-items: center; justify-content: center; display: flex; flex-direction: column">
+    <h1>End User Dashboard</h1>
+    <form onsubmit="checkFeature(event)" autocomplete="off">
+      <input id="feature_key" placeholder="Feature Key" required /><br /><br />
+      <button type="submit">Check Feature</button>
+    </form>
+    <p>------------------------------------------------------------------------------------</p>
+    <button onclick="logout()">Logout</button>
+
+    <script src="../helper/apiCall.js"></script>
+    <script>
+      function checkFeature(e) {
+        e.preventDefault();
+        const feature_key = document.getElementById("feature_key").value;
+        apiCall("feature-flags/check", "POST", { feature_key }).then((data) => {
+          if (data.status === "success") {
+            alert(`Feature "${feature_key}" is ${data.is_enabled ? "Enabled" : "Disabled"}`);
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+
+      function logout() {
+        apiCall("auth/logout", "POST").then((data) => {
+          if (data.status === "success") {
+            alert(data.message);
+            window.location.href = "login.html";
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -10,12 +10,12 @@ import {
 import CustomError from "../utils/CustomError.js";
 
 export const createFeatureFlag = asyncHandler(async (req, res, next) => {
-  const { feature_key, is_enabled } = req.body;
+  const { feature_key } = req.body;
 
   const created_by = req.user.id;
   const organization_id = req.user.organization_id;
 
-  const [result] = await db.query(createFeatureFlagQuery, [feature_key, is_enabled, organization_id, created_by]);
+  const [result] = await db.query(createFeatureFlagQuery, [feature_key, organization_id, created_by]);
 
   if (!result || result.affectedRows === 0) {
     return next(new CustomError(404, "Feature flag failed to create"));

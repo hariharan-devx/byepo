@@ -1,4 +1,4 @@
-export const createFeatureFlagQuery = `INSERT INTO feature_flags (feature_key, is_enabled, organization_id, created_by, status) VALUES (?, ?, ?, ?, 'Y')`;
+export const createFeatureFlagQuery = `INSERT INTO feature_flags (feature_key, organization_id, created_by, status) VALUES (?, ?, ?, 'Y')`;
 
 export const updateFeatureFlagQuery = `UPDATE feature_flags SET is_enabled = ?, updated_by = ? WHERE organization_id = ? AND id = ?`;
 

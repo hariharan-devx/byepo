@@ -19,6 +19,7 @@ import {
 const router = express.Router();
 
 const orgAdminRole = process.env.ORG_ADMIN_ROLE;
+const endUserRole = process.env.END_USER_ROLE;
 
 router.post(
   "/feature-flags/create",
@@ -49,7 +50,7 @@ router.get("/feature-flags/list", authMiddleware, roleMiddleware(orgAdminRole), 
 router.post(
   "/feature-flags/check",
   authMiddleware,
-  roleMiddleware(orgAdminRole),
+  roleMiddleware(endUserRole),
   validateRequest(checkFeatureFlagSchema),
   checkFeatureFlag,
 );
