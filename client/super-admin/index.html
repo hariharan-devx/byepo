@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Admin Dashboard</title>
+  </head>
+  <body style="align-items: center; justify-content: center; display: flex; flex-direction: column">
+    <h1>Super Admin Dashboard</h1>
+
+    <form onsubmit="createOrganization(event)">
+      <input id="organization" placeholder="Organization Name" required /><br /><br />
+      <button type="submit">Create</button>
+    </form>
+    <p>-------------------</p>
+    <button onclick="logout()">Logout</button>
+
+    <script src="../helper/apiCall.js"></script>
+    <script>
+      function createOrganization(e) {
+        e.preventDefault();
+        const name = document.getElementById("organization").value;
+        apiCall("organizations", "POST", { name }).then((data) => {
+          if (data.status === "success") {
+            alert(data.message);
+            document.getElementById("organization").value = "";
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+
+      function logout() {
+        apiCall("auth/logout", "POST").then((data) => {
+          if (data.status === "success") {
+            alert(data.message);
+            window.location.href = "login.html";
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

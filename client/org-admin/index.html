@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Admin Dashboard</title>
+  </head>
+  <body style="align-items: center; justify-content: center; display: flex; flex-direction: column">
+    <h1>Organization Admin Dashboard</h1>
+
+    <form onsubmit="createFeature(event)" autocomplete="off">
+      <input id="feature_key" placeholder="Feature Key" required /><br /><br />
+      <button type="submit">Create</button>
+    </form>
+    <p>------------------------------------------------------------------------------------</p>
+    <h3>View Feature Flags</h3>
+    <table border="1" cellpadding="10">
+      <thead>
+        <tr>
+          <th>Feature Key</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="feature_container"></tbody>
+    </table>
+    <p>------------------------------------------------------------------------------------</p>
+    <button onclick="logout()">Logout</button>
+
+    <script src="../helper/apiCall.js"></script>
+    <script>
+      function createFeature(e) {
+        e.preventDefault();
+        const feature_key = document.getElementById("feature_key").value;
+        apiCall("feature-flags/create", "POST", { feature_key }).then((data) => {
+          if (data.status === "success") {
+            alert(data.message);
+            document.getElementById("feature_key").value = "";
+            loadFeatures();
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+
+      function loadFeatures() {
+        apiCall("feature-flags/list", "GET").then((data) => {
+          const container = document.getElementById("feature_container");
+          container.innerHTML = "";
+          if (data.status === "success") {
+            data.data.forEach((flag) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+            <td>${flag.feature_key}</td>
+            <td>${flag.is_enabled ? "Enabled" : "Disabled"}</td>
+            <td>
+              <button onclick="toggleFeature(${flag.id}, ${flag.is_enabled})">
+                ${flag.is_enabled ? "Disable" : "Enable"}
+              </button>
+            </td>
+          `;
+              container.appendChild(row);
+            });
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+      function toggleFeature(id, currentStatus) {
+        apiCall("feature-flags/update", "PUT", {
+          id: id,
+          is_enabled: !currentStatus,
+        }).then((data) => {
+          loadFeatures();
+        });
+      }
+
+      function logout() {
+        apiCall("auth/logout", "POST").then((data) => {
+          if (data.status === "success") {
+            alert(data.message);
+            window.location.href = "login.html";
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+      window.onload = loadFeatures();
+    </script>
+  </body>
+</html>

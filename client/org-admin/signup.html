@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Admin Signup</title>
+  </head>
+  <body style="align-items: center; justify-content: center; display: flex; flex-direction: column">
+    <h1>Organization Admin Signup</h1>
+
+    <form onsubmit="signup(event)" autocomplete="off">
+      <input id="email" placeholder="Email" required /><br /><br />
+      <input id="password" type="password" placeholder="Password" required /><br /><br />
+      <input id="organization_id" placeholder="Organization ID" required /><br /><br />
+      <button type="submit">Signup</button>
+    </form>
+
+    <script src="../helper/apiCall.js"></script>
+    <script>
+      function signup(e) {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const organization_id = parseInt(document.getElementById("organization_id").value);
+        apiCall("auth/org-admin-signup", "POST", { email, password, organization_id }).then((data) => {
+          if (data.status === "success") {
+            alert("Signup successful!");
+            window.location.href = "login.html";
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

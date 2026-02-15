@@ -1,6 +1,8 @@
 import express from "express";
-import rateLimit from "express-rate-limit";
 import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import CustomError from "./src/utils/CustomError.js";
 import globalErrorHandler from "./src/controllers/errorController.js";
@@ -12,6 +14,12 @@ import featureFlagRoute from "./src/routes/featureFlagRoute.js";
 let app = express();
 
 app.use(helmet());
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500",
+    credentials: true,
+  }),
+);
 
 let limitter = rateLimit({
   max: 1000,
@@ -20,9 +28,8 @@ let limitter = rateLimit({
 });
 
 app.use("/", limitter);
-
 app.use(express.json({ limit: "10kb" }));
-
+app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use(healthRoute);

@@ -3,6 +3,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import db from "../config/mysqlConfig.js";
 import { generateToken } from "../utils/jwt.js";
 import { loginUserQuery, signupUserQuery } from "../dbOperations/userStatements.js";
+import { checkOrganizationExistsQuery } from "../dbOperations/organizationStatements.js";
 import CustomError from "../utils/CustomError.js";
 
 //Super Admin Login
@@ -17,22 +18,29 @@ export const superAdminLogin = asyncHandler(async (req, res, next) => {
 });
 
 //Org Admin and End User Signup
-export const signup = asyncHandler(async (req, res, next) => {
-  const { email, password, role, organization_id } = req.body;
+export const signup = (role) =>
+  asyncHandler(async (req, res, next) => {
+    const { email, password, organization_id } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+    const [org] = await db.query(checkOrganizationExistsQuery, [organization_id]);
 
-  const [newUser] = await db.query(signupUserQuery, [email, hashedPassword, role, organization_id, "Y"]);
+    if (!org || org.length === 0) {
+      return next(new CustomError(404, "Invalid organization ID"));
+    }
 
-  if (!newUser || newUser.affectedRows === 0) {
-    return next(new CustomError(404, "User failed to add"));
-  }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  res.status(201).json({
-    status: "success",
-    message: "Signup successful",
+    const [newUser] = await db.query(signupUserQuery, [email, hashedPassword, role, organization_id, "Y"]);
+
+    if (!newUser || newUser.affectedRows === 0) {
+      return next(new CustomError(404, "User failed to add"));
+    }
+
+    res.status(201).json({
+      status: "success",
+      message: "Signup successful",
+    });
   });
-});
 
 //Login(Org Admin / End User)
 export const login = asyncHandler(async (req, res, next) => {
@@ -52,4 +60,12 @@ export const login = asyncHandler(async (req, res, next) => {
   const tokenPayload = { id: user[0].id, role: user[0].role, organization_id: user[0].organization_id };
 
   generateToken(tokenPayload, 200, res);
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ status: "success", message: "Logged out successfully" });
 });

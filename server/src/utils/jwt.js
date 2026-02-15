@@ -12,6 +12,7 @@ export const generateToken = (user, statusCode, res) => {
   const options = {
     maxAge: process.env.JWT_EXPIRES,
     httpOnly: true,
+    sameSite: "lax",
   };
   if (process.env.NODE_ENV === "prod") options.secure = true;
 

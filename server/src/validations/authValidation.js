@@ -18,7 +18,6 @@ export const signupSchema = Joi.object({
       "string.max": "Password must not exceed 10 characters.",
       "string.pattern.base": "Password must include uppercase, lowercase, number, and special character.",
     }),
-  role: Joi.string().trim().required().label("Role"),
   organization_id: Joi.number().strict().required().label("Organization ID"),
 });
 
