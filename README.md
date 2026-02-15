@@ -9,6 +9,7 @@ A full-stack feature flag management system with role-based access control (RBAC
 - [Project Structure](#project-structure)
 - [User Roles](#user-roles)
 - [API Endpoints](#api-endpoints)
+- [Postman Collection](#postman-collection)
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Database Setup](#database-setup)
@@ -155,6 +156,30 @@ byepo/
 | PUT    | `/feature-flags/delete/:id` | Delete a feature flag                   | ORG_ADMIN |
 | GET    | `/feature-flags/list`       | List all feature flags for organization | ORG_ADMIN |
 | POST   | `/feature-flags/check`      | Check if a feature flag is enabled      | END_USER  |
+
+---
+
+## Postman Collection
+
+A Postman collection is included in the project root for testing all API endpoints.
+
+### Importing the Collection
+
+1. Open Postman
+2. Click on "Import" button
+3. Select the `Byepo.postman_collection.json` file from the project root
+4. The collection will be imported with all API endpoints
+
+### Using the Collection
+
+The collection includes pre-configured requests for:
+
+- **Health Check**: Server status endpoint
+- **Authentication**: Login, signup, and logout endpoints
+- **Organizations**: Create and list organizations (Super Admin only)
+- **Feature Flags**: Create, update, delete, list, and check feature flags
+
+> **Note**: The JWT token is stored in cookies. After logging in, the token will be automatically sent with subsequent requests via cookies. No manual Authorization header is needed when using the collection in a browser or with cookies enabled.
 
 ---
 

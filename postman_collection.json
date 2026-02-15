@@ -17,9 +17,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const response = pm.response.json();",
-									"const token = response['token'];",
-									"pm.environment.set('token', token);"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -120,9 +118,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const response = pm.response.json();",
-									"const token = response['token'];",
-									"pm.environment.set('token', token);"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {},
@@ -135,7 +131,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"user@test.com\",\n    \"password\": \"Test@123\"\n}",
+							"raw": "{\n    \"email\": \"org@test.com\",\n    \"password\": \"Test@123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -161,14 +157,7 @@
 					"name": "logout",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
@@ -200,20 +189,13 @@
 					"name": "add-organization",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"code\"\n}",
+							"raw": "{\n    \"name\":\"devx\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,14 +220,7 @@
 					"name": "get-organization",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -272,14 +247,7 @@
 					"name": "create-feature-flag",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
@@ -311,14 +279,7 @@
 					"name": "update-feature-flag",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "PUT",
 						"header": [],
@@ -350,14 +311,7 @@
 					"name": "delete-feature-flag",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "PUT",
 						"header": [],
@@ -390,14 +344,7 @@
 					"name": "list-feature-flag",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -420,14 +367,7 @@
 					"name": "check-feature-flag",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
