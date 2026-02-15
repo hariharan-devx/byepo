@@ -167,7 +167,7 @@ A Postman collection is included in the project root for testing all API endpoin
 
 1. Open Postman
 2. Click on "Import" button
-3. Select the `Byepo.postman_collection.json` file from the project root
+3. Select the `postman_collection.json` file from the project root
 4. The collection will be imported with all API endpoints
 
 ### Using the Collection
