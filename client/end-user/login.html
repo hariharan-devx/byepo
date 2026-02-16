@@ -21,12 +21,16 @@
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         apiCall("auth/login", "POST", { email, password }).then((data) => {
-          if (data.status === "success") {
+          if (data.status !== "success") {
+            alert(data.message);
+            return;
+          }
+          const role = data.data.user.role;
+          if (role === "END_USER") {
             alert("Login successful!");
             window.location.href = "index.html";
           } else {
-            console.log(data.message);
-            alert(data.message);
+            alert("Access denied");
           }
         });
       }
